@@ -19,7 +19,10 @@ import io.gravitee.gateway.api.Request;
 import io.gravitee.gateway.api.Response;
 import io.gravitee.policy.api.PolicyChain;
 import io.gravitee.policy.api.annotations.OnRequest;
+import io.gravitee.policy.transformqueryparams.configuration.HttpQueryParameter;
 import io.gravitee.policy.transformqueryparams.configuration.TransformQueryParametersPolicyConfiguration;
+
+import java.util.function.Consumer;
 
 /**
  * @author David BRASSELY (brasseld at gmail.com)
@@ -43,14 +46,22 @@ public class TransformQueryParametersPolicy {
             // Remove query parameters
             if (transformQueryParametersPolicyConfiguration.getRemoveQueryParameters() != null) {
                 transformQueryParametersPolicyConfiguration.getRemoveQueryParameters()
-                        .forEach(queryParameterName -> request.parameters().remove(queryParameterName));
+                        .forEach(queryParameterName -> {
+                            if (queryParameterName != null && ! queryParameterName.trim().isEmpty()) {
+                                request.parameters().remove(queryParameterName);
+                            }
+                        });
             }
         }
 
         // Add or update query parameters
         if (transformQueryParametersPolicyConfiguration.getAddQueryParameters() != null) {
             transformQueryParametersPolicyConfiguration.getAddQueryParameters().forEach(
-                    queryParameter -> request.parameters().put(queryParameter.getName(), queryParameter.getValue()));
+                    queryParameter -> {
+                        if (queryParameter.getName() != null && ! queryParameter.getName().trim().isEmpty()) {
+                            request.parameters().put(queryParameter.getName(), queryParameter.getValue());
+                        }
+                    });
         }
 
         // Apply next policy in chain
