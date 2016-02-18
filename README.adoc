@@ -1,0 +1,42 @@
+=== Transform Query Parameters Policy
+
+https://github.com/gravitee-io/gravitee-policy-transform-queryparameters[Source code],
+image:http://build.gravitee.io/jenkins/buildStatus/icon?job=gravitee-policy-transform-queryparameters["Build status", link="http://build.gravitee.io/jenkins/job/gravitee-policy-transform-queryparameters/"]
+
+==== Scope
+
+|===
+|onRequest |onResponse
+
+|
+|
+
+|===
+
+==== Description
+
+Todo
+
+==== Configuration
+
+You can configure the policy with the following options :
+
+|===
+|Property |Required |Description |Type |Default
+
+|Todo
+|Todo
+|Todo
+|Todo
+|_todo_
+
+|===
+
+
+[source, json]
+.Sample
+----
+"transform-queryparams": {
+  "todo": true
+}
+----
