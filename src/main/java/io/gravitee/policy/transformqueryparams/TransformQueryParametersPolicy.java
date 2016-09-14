@@ -15,14 +15,12 @@
  */
 package io.gravitee.policy.transformqueryparams;
 
+import io.gravitee.gateway.api.ExecutionContext;
 import io.gravitee.gateway.api.Request;
 import io.gravitee.gateway.api.Response;
 import io.gravitee.policy.api.PolicyChain;
 import io.gravitee.policy.api.annotations.OnRequest;
-import io.gravitee.policy.transformqueryparams.configuration.HttpQueryParameter;
 import io.gravitee.policy.transformqueryparams.configuration.TransformQueryParametersPolicyConfiguration;
-
-import java.util.function.Consumer;
 
 /**
  * @author David BRASSELY (brasseld at gmail.com)
@@ -39,7 +37,7 @@ public class TransformQueryParametersPolicy {
     }
 
     @OnRequest
-    public void onRequest(Request request, Response response, PolicyChain policyChain) {
+    public void onRequest(Request request, Response response, ExecutionContext executionContext, PolicyChain policyChain) {
         if (transformQueryParametersPolicyConfiguration.isClearAll()) {
             request.parameters().clear();
         } else {
@@ -59,7 +57,15 @@ public class TransformQueryParametersPolicy {
             transformQueryParametersPolicyConfiguration.getAddQueryParameters().forEach(
                     queryParameter -> {
                         if (queryParameter.getName() != null && ! queryParameter.getName().trim().isEmpty()) {
-                            request.parameters().put(queryParameter.getName(), queryParameter.getValue());
+                            if (queryParameter.getName() != null && ! queryParameter.getName().trim().isEmpty()) {
+                                try {
+                                    String extValue = (queryParameter.getValue() != null) ?
+                                            executionContext.getTemplateEngine().convert(queryParameter.getValue()) : null;
+                                    request.headers().set(queryParameter.getName(), extValue);
+                                } catch (Exception ex) {
+                                    // Do nothing
+                                }
+                            }
                         }
                     });
         }
