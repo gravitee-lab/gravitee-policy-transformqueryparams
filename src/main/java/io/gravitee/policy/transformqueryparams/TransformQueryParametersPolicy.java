@@ -61,7 +61,7 @@ public class TransformQueryParametersPolicy {
                                 try {
                                     String extValue = (queryParameter.getValue() != null) ?
                                             executionContext.getTemplateEngine().convert(queryParameter.getValue()) : null;
-                                    request.headers().set(queryParameter.getName(), extValue);
+                                    request.parameters().put(queryParameter.getName(), extValue);
                                 } catch (Exception ex) {
                                     // Do nothing
                                 }
