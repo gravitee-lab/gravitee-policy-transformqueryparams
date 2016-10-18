@@ -49,14 +49,12 @@ public class TransformQueryParametersPolicy {
             transformQueryParametersPolicyConfiguration.getAddQueryParameters().forEach(
                     queryParameter -> {
                         if (queryParameter.getName() != null && ! queryParameter.getName().trim().isEmpty()) {
-                            if (queryParameter.getName() != null && ! queryParameter.getName().trim().isEmpty()) {
-                                try {
-                                    String extValue = (queryParameter.getValue() != null) ?
-                                            executionContext.getTemplateEngine().convert(queryParameter.getValue()) : null;
-                                    request.parameters().put(queryParameter.getName(), extValue);
-                                } catch (Exception ex) {
-                                    // Do nothing
-                                }
+                            try {
+                                String extValue = (queryParameter.getValue() != null) ?
+                                        executionContext.getTemplateEngine().convert(queryParameter.getValue()) : null;
+                                request.parameters().put(queryParameter.getName(), extValue);
+                            } catch (Exception ex) {
+                                // Do nothing
                             }
                         }
                     });
