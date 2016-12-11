@@ -24,7 +24,7 @@
     <artifactId>gravitee-policy-transformqueryparams</artifactId>
     <version>1.1.0-SNAPSHOT</version>
 
-    <name>Transform Query Parameters Policy</name>
+    <name>Gravitee.io APIM - Policy - Transform Query Parameters</name>
     <description>Description of the Transform Query Parameters Policy</description>
 
     <parent>
